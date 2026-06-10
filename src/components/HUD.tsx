@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useTheme } from 'next-themes';
+import confetti from 'canvas-confetti';
 
 function SplashScreen() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -52,6 +53,7 @@ function SplashScreen() {
 
 export default function HUD() {
   const hudRefs = useRef<(HTMLElement | null)[]>([]);
+  const footerRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     gsap.registerPlugin(ScrollTrigger);
@@ -78,6 +80,23 @@ export default function HUD() {
         }
       );
     });
+
+    if (footerRef.current) {
+      ScrollTrigger.create({
+        trigger: footerRef.current,
+        start: "top 85%",
+        once: true,
+        onEnter: () => {
+          confetti({
+            particleCount: 200,
+            spread: 120,
+            origin: { y: 0.7 },
+            colors: ['#00f3ff', '#9333ea', '#ff00ff', '#ffffff'],
+            zIndex: 1000
+          });
+        }
+      });
+    }
     
     return () => {
       ScrollTrigger.getAll().forEach(t => t.kill());
@@ -324,13 +343,13 @@ export default function HUD() {
       </div>
 
       {/* Footer */}
-      <div className="min-h-screen flex items-center justify-center px-6">
-        <div ref={addToRefs} className="bg-card-bg backdrop-blur-xl border border-neon-purple/50 rounded-2xl p-10 max-w-4xl w-full mx-auto shadow-[0_0_60px_rgba(147,51,234,0.2)] text-center border-t-4 border-t-neon-purple">
+      <div className="min-h-screen flex flex-col items-center justify-center px-6 relative">
+        <div ref={(el) => { addToRefs(el); footerRef.current = el as HTMLDivElement; }} className="bg-card-bg backdrop-blur-xl border border-neon-purple/50 rounded-2xl p-10 max-w-4xl w-full mx-auto shadow-[0_0_60px_rgba(147,51,234,0.2)] text-center border-t-4 border-t-neon-purple relative z-10">
           <h2 className="text-2xl text-text-main font-bold tracking-widest uppercase mb-8 drop-shadow-[0_0_10px_#9333ea]">Transmission Complete</h2>
           <div className="flex flex-wrap justify-center gap-6">
             <a href="https://github.com/rajm688" target="_blank" rel="noreferrer" className="px-8 py-3 border border-border-subtle rounded-lg text-text-main font-semibold hover:border-neon-blue hover:text-neon-blue hover:shadow-[0_0_15px_#00f3ff] transition-all">GitHub</a>
             <a href="https://linkedin.com/in/rajm688" target="_blank" rel="noreferrer" className="px-8 py-3 border border-border-subtle rounded-lg text-text-main font-semibold hover:border-neon-blue hover:text-neon-blue hover:shadow-[0_0_15px_#00f3ff] transition-all">LinkedIn</a>
-            <a href="https://flowcv.com/resume/4u6lrjuwmd" target="_blank" rel="noreferrer" className="px-8 py-3 bg-neon-purple text-white rounded-lg font-semibold hover:bg-purple-500 transition-all shadow-[0_0_20px_#9333ea]">Download Resume</a>
+            <a href="/resume" className="px-8 py-3 bg-neon-purple text-white rounded-lg font-semibold hover:bg-purple-500 transition-all shadow-[0_0_20px_#9333ea]">View Resume</a>
           </div>
           <p className="mt-10 text-text-muted text-sm tracking-wide">
             Built with ❤️ by Raj · Thanks for taking your time to look into my profile 😊
