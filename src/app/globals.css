@@ -1,0 +1,72 @@
+@import "tailwindcss";
+
+@theme {
+  --color-neon-purple: var(--neon-purple);
+  --color-neon-blue: var(--neon-blue);
+  --color-neon-pink: var(--neon-pink);
+  --color-neon-orange: #ffaa00;
+  --color-neon-green: #00ff66;
+  --color-bg-dark: var(--bg-dark);
+  --color-card-bg: var(--card-bg);
+  --color-border-subtle: var(--border-subtle);
+  --color-text-main: var(--text-main);
+  --color-text-muted: var(--text-muted);
+}
+
+:root {
+  /* Light Mode Defaults */
+  --foreground-rgb: 15, 23, 42;
+  --background-rgb: 248, 250, 252;
+  --neon-purple: #7e22ce;
+  --neon-blue: #0284c7;
+  --neon-pink: #db2777;
+  --bg-dark: #f8fafc;
+  --card-bg: rgba(255, 255, 255, 0.7);
+  --border-subtle: rgba(0, 0, 0, 0.1);
+  --text-main: #0f172a;
+  --text-muted: #475569;
+}
+
+.dark {
+  /* Dark Mode Overrides */
+  --foreground-rgb: 255, 255, 255;
+  --background-rgb: 5, 5, 5;
+  --neon-purple: #9333ea;
+  --neon-blue: #00f3ff;
+  --neon-pink: #ff00ff;
+  --bg-dark: #050505;
+  --card-bg: rgba(0, 0, 0, 0.6);
+  --border-subtle: rgba(255, 255, 255, 0.1);
+  --text-main: #ffffff;
+  --text-muted: #9ca3af;
+}
+
+body {
+  color: rgb(var(--foreground-rgb));
+  background: rgb(var(--background-rgb));
+  overflow-x: hidden;
+}
+
+::-webkit-scrollbar {
+  width: 0px;
+  background: transparent;
+}
+
+@keyframes neon-flicker {
+  0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% {
+    opacity: 1;
+    filter: brightness(1);
+  }
+  20%, 24%, 55% {
+    opacity: 0.3;
+    filter: brightness(0.4);
+  }
+}
+
+.animate-flicker {
+  animation: neon-flicker 3s infinite alternate;
+}
+
+.animate-flicker-delayed {
+  animation: neon-flicker 4.5s infinite alternate-reverse 1.2s;
+}
